@@ -1,30 +1,27 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
 ### Variables
 #
-# Logo key. Use Mod1 for Alt.
+# Logo key. Use Mod1 for Alt and Mod4 for Windows.
 set $mod Mod4
+    
 # Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
+    
 # Your preferred terminal emulator
 set $term foot
+    
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | wmenu | xargs swaymsg exec --
+set $menu tofi-run | xargs swaymsg exec --
 
 ### Output configuration
 #
-# Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
-output * bg @datadir@/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
+# All black wallpaper    
+output * bg #000000 solid_color
+        
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
@@ -35,10 +32,10 @@ output * bg @datadir@/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
+exec swayidle -w \
+          timeout 300 'swaylock --clock --timestr "%H:%M" --datestr "%Y-%m-%d" -c 000000' \
+          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+          before-sleep 'swaylock --clock --timestr "%H:%M" --datestr "%Y-%m-%d" -c 000000' 
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -48,12 +45,15 @@ output * bg @datadir@/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Example configuration:
 #
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
+   input "1739:52839:SYNA8018:00_06CB:CE67_Touchpad" {
+       dwt enabled
+       tap enabled
+       natural_scroll enabled
+       middle_emulation enabled
+   }
+
+    # Touchscreen
+    input "1267:11998:ELAN901C:00_04F3:2EDE" map_to_output eDP-1
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -83,7 +83,31 @@ output * bg @datadir@/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
 #
+# User added 
+#
+    # Enable notifications
+    exec mako
+
+    # Enable audio control
+    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+    # Enable microphone control
+    bindsym XF86AudioMicMute exec ~/.config/sway/scripts/mic_control.sh
+    
+    # Control screen brightness
+    bindsym XF86MonBrightnessUp exec brightnessctl -e set +10%
+    bindsym XF86MonBrightnessDown exec brightnessctl -e set 10%-
+
+    # Screenshot
+    bindsym Print exec grim -g "$(slurp)" - | wl-copy
+
+    # Lock and suspend keybinding
+    bindsym $mod+Escape exec swaylock --clock --timestr "%H:%M" --datestr "%Y-%m-%d" -c 000000
+    
 # Moving around:
 #
     # Move your focus around
@@ -205,7 +229,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    status_command while date +'%Y-%m-%d %H:%M'; do sleep 60; done
 
     colors {
         statusline #ffffff
@@ -214,4 +238,4 @@ bar {
     }
 }
 
-include @sysconfdir@/sway/config.d/*
+include /etc/sway/config.d/*
