@@ -1,0 +1,4 @@
+#+TITLE: DotConfig
+#+AUTHOR: Danijel Camdzic
+
+This repository contains my personal configuration for some of the programs I use.
