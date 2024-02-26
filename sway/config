@@ -105,7 +105,7 @@ exec swayidle -w \
     # Screenshot
     bindsym Print exec grim -g "$(slurp)" - | wl-copy
 
-    # Lock and suspend keybinding
+    # Lock keybinding
     bindsym $mod+Escape exec swaylock --clock --timestr "%H:%M" --datestr "%Y-%m-%d" -c 000000
     
 # Moving around:
