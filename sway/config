@@ -107,6 +107,9 @@ exec swayidle -w \
 
     # Lock keybinding
     bindsym $mod+Escape exec swaylock --clock --timestr "%H:%M" --datestr "%Y-%m-%d" -c 000000
+
+    # Shutdown keybinding
+    bindsym $mod+Delete exec shutdown now
     
 # Moving around:
 #
