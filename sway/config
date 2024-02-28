@@ -124,6 +124,9 @@ exec swayidle -w \
     bindsym $mod+Up focus up
     bindsym $mod+Right focus right
 
+    # Disable focus follows mouse
+    focus_follows_mouse no
+
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
