@@ -15,12 +15,17 @@ set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu tofi-run | xargs swaymsg exec --
+for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+set $menu exec $term -a launcher -e sway-launcher-desktop
+bindsym $mod+Shift+d exec nwg-drawer
 
 ### Output configuration
 #
 # All black wallpaper    
 output * bg #000000 solid_color
+
+gaps inner 8
+gaps outer 3
         
 # Example configuration:
 #
@@ -235,7 +240,10 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %H:%M'; do sleep 1; done
+
+    swaybar_command waybar
+
+    #status_command i3status
 
     colors {
         statusline #ffffff
