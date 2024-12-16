@@ -58,6 +58,13 @@ exec swayidle -w \
 
     # Touchscreen
     input "1267:11998:ELAN901C:00_04F3:2EDE" map_to_output eDP-1
+
+    # Keyboard input configuration
+    input * {
+        xkb_layout us,ca
+        xkb_variant ,fr
+        xkb_options grp:alt_shift_toggle
+    }
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
