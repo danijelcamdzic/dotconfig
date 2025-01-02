@@ -114,7 +114,8 @@ exec swayidle -w \
     bindsym XF86MonBrightnessDown exec brightnessctl -e set 10%-
 
     # Screenshot
-    bindsym Print exec grim -g "$(slurp)" - | wl-copy
+    bindsym Print exec grim -g "$(slurp)" - | wl-copy --type image/png
+
 
     # Lock keybinding
     bindsym $mod+Escape exec swaylock --clock --timestr "%H:%M" --datestr "%Y-%m-%d" -c 000000
